@@ -3,10 +3,12 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
+/**
+ * A dialog for selecting a MIME type from a predefined list.
+ * Allows filtering the list via a search field.
+ */
 public class MimeTypeSelectionDialog extends JDialog {
     private JList<String> mimeList;
     private DefaultListModel<String> listModel;
@@ -16,7 +18,7 @@ public class MimeTypeSelectionDialog extends JDialog {
     private String selectedMimeType;
 
     // Expanded list of common MIME types
-    private static final List<String> PREDEFINED_MIME_TYPES = Arrays.asList(
+    private static final List<String> PREDEFINED_MIME_TYPES = List.of(
             // Application types
             "application/atom+xml",
             "application/EDI-X12",
@@ -101,6 +103,11 @@ public class MimeTypeSelectionDialog extends JDialog {
             "video/x-msvideo" // .avi
     );
 
+    /**
+     * Constructs a MimeTypeSelectionDialog.
+     * 
+     * @param owner The Frame from which the dialog is displayed.
+     */
     public MimeTypeSelectionDialog(Frame owner) {
         super(owner, "Select MIME Type", true);
         initComponents();
@@ -109,6 +116,9 @@ public class MimeTypeSelectionDialog extends JDialog {
         setLocationRelativeTo(owner);
     }
 
+    /**
+     * Initializes the components of the dialog.
+     */
     private void initComponents() {
         listModel = new DefaultListModel<>();
         PREDEFINED_MIME_TYPES.forEach(listModel::addElement);
@@ -152,6 +162,9 @@ public class MimeTypeSelectionDialog extends JDialog {
         });
     }
 
+    /**
+     * Lays out the components within the dialog.
+     */
     private void layoutComponents() {
         JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         searchPanel.add(new JLabel("Search:"));
@@ -170,6 +183,9 @@ public class MimeTypeSelectionDialog extends JDialog {
         ((JComponent) contentPane).setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
     }
 
+    /**
+     * Filters the list of MIME types based on the search term entered by the user.
+     */
     private void filterList() {
         String searchTerm = searchField.getText().toLowerCase();
         listModel.clear();
@@ -178,6 +194,12 @@ public class MimeTypeSelectionDialog extends JDialog {
                 .forEach(listModel::addElement);
     }
 
+    /**
+     * Gets the MIME type selected by the user.
+     * 
+     * @return The selected MIME type string, or null if the dialog was cancelled or
+     *         no selection was made.
+     */
     public String getSelectedMimeType() {
         return selectedMimeType;
     }
