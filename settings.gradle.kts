@@ -1,1 +1,1 @@
-rootProject.name = "mimegen"
+rootProject.name = "MIME Types Generator"
