@@ -1,0 +1,25 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "21"
+      - name: Build JAR
+        run: ./gradlew jar
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build/libs/mimegen.jar
+          draft: false
+          prerelease: false
