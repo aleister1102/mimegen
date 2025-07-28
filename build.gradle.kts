@@ -18,6 +18,7 @@ tasks.withType<JavaCompile> {
 
 tasks.jar {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from(sourceSets["main"].output)
     from(configurations.runtimeClasspath.get().filter { it.isDirectory })
     from(configurations.runtimeClasspath.get().filterNot { it.isDirectory }.map { zipTree(it) })
 }
